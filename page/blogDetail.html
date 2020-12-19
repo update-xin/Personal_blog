@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/blogDetail.css">
+</head>
+
+<body>
+    <nav class="header">
+        <div class="header_content" id="search">
+            <span>张更新个人博客 | 技术博客</span>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/map.html">地图</a></li>
+                <li><a href="/about.html">关于</a></li>
+                <li><a href="/comment.html">留言</a></li>
+            </ul>
+            <input type="text" placeholder="输入关键词查找">
+            <button>搜索</button>
+        </div>
+    </nav>
+    <div class="content clearfix">
+        <div class="content_left">
+            <div id="blogDetail">
+                <h1>{{content.title}}</h1>
+                <span>作者: {{content.author}} 发布于: {{content.ctime}} 浏览({{content.views}})</span>
+                <div id="blog_content" v-html="content.content"></div>
+            </div>
+            <div id="blogComment">
+                <ul>
+                    <li v-for="comment of commentList" :key="comment.id">
+                        <span>{{comment.name}}：发表于 {{comment.ctime}}<a href="#addComment"
+                                @click="huifu(comment.id)">[回复]</a></span>
+                        <p>{{comment.content}}</p>
+                    </li>
+                </ul>
+                <div class="addComment" id="addComment">
+                    <input type="hidden" v-model="commentId">
+                    <input type="text" placeholder="昵称" v-model="name">
+                    <input type="text" placeholder="邮箱" v-model="email">
+                    <textarea placeholder="无意义的内容我可能不会回复你" v-model="comment"></textarea>
+                    <input type="text" placeholder="请在这里输入验证码" v-model="inputRandomCode">
+                    <span v-html="randomSvg" @click="changeCode"></span>
+                    <button @click="sendComment">提交留言</button>
+                </div>
+            </div>
+        </div>
+        <div class="content_right">
+            <div id="tags_cloud">
+                <span>随机标签云</span>
+                <div>
+                    <a :href="tag.url" v-for="(tag,index) in tags" :key="tag.tag"
+                        :style="{color:randColor(),fontSize:randSize()}">{{tag.tag}}</a>
+                </div>
+            </div>
+            <div id="hot_blog">
+                <span>最近热门</span>
+                <ul>
+                    <li v-for="hot in blogList"><a :href="hot.url">{{hot.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <footer>Copyright © 2020-2021 张更新个人博客</footer>
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/base.js"></script>
+    <script src="./js/blogDetail.js"></script>

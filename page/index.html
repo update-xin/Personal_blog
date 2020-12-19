@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <nav class="header">
+        <div class="header_content" id="search">
+            <span>张更新个人博客 | 技术博客</span>
+            <ul>
+                <li><a href="/">首页</a></li>
+                <li><a href="/map.html">地图</a></li>
+                <li><a href="/about.html">关于</a></li>
+                <li><a href="/comment.html">留言</a></li>
+            </ul>
+            <input type="text" placeholder="输入关键词查找" v-model="search">
+            <button @click="sendSearch">搜索</button>
+        </div>
+    </nav>
+    <div class="content clearfix">
+        <div class="content_left">
+            <div id="everyDay">
+                <span class="everyDayTitle">每日一句</span>
+                <p>{{content}}</p>
+            </div>
+            <div id="blogList">
+                <ul>
+                    <li v-for="(key,index) in list" :key="key.content + key.title">
+                        <span @click="jumpTo(key.id)">{{key.title}}</span>
+                        {{key.content}}
+                        <div><span>发布于{{key.ctime}} | 浏览({{key.views}}) | Tags：{{key.tags}}</span></div>
+                    </li>
+                </ul>
+            </div>
+            <div id="pageTools">
+                <ul>
+                    <li v-for="page in pageList" :key="page.text">
+                        <span @click="changePage(page.pageNum)"
+                            :class="{selectOn:page.text===nowPage}">{{page.text}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content_right">
+            <div id="tags_cloud">
+                <span>随机标签云</span>
+                <div>
+                    <a v-for="(tag,index) in tags" :key="tag.tag" @click="handleClick(tag.url)"
+                        :style="{color:randColor(),fontSize:randSize()}">{{tag.tag}}</a>
+                </div>
+            </div>
+            <div id="hot_blog">
+                <span>最近热门</span>
+                <ul>
+                    <li v-for="hot in blogList"><a :href="hot.url">{{hot.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- <footer>Copyright © 2020-2021 张更新个人博客</footer> -->
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/base.js"></script>
+</body>
+
+</html>
